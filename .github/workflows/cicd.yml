@@ -57,3 +57,23 @@ jobs:
           context: ./backend/
           push: true
           tags: aayush786/django-helloworld-backend:latest
+  
+  deployment:
+    runs-on: ubuntu-latest
+    needs: backend-build
+    steps:
+      - uses: sudosubin/git-clone-action@v1
+        with:
+          repository: 'aayush786-21/-django-next-js-postgres-deployment'
+          platform: 'github'
+      -
+        name: Deploying in the orbstack vm using docker-compose file
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST_IP}}
+          username: ${{ secrets.ORBSTACK_USERNAME}}
+          ssh_key: ${{ secrets.SSH_KEY}}
+          script:
+            docker pull aayush786/django-helloworld-backend:latest
+            docker pull aayush786/django-helloworld-frontend:latest
+            docker compose -f .docker-compose.yml up -d

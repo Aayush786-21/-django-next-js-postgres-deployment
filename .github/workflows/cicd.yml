@@ -65,9 +65,9 @@ jobs:
       - name: Deploy using ngrok tunnel
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: ${{ secrets.NGROK_HOST }}
-          port: ${{ secrets.NGROK_PORT }}
-          username: ${{ secrets.SSH_USERNAME }}
+          host: 0.tcp.in.ngrok.io
+          port: 10237
+          username: aayush
           key: ${{ secrets.SSH_KEY }}
           script: |
             git clone https://github.com/aayush786-21/django-next-js-postgres-deployment.git || true

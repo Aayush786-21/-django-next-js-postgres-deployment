@@ -2,7 +2,7 @@
 
 This project is a full-stack web application using Django (with Django REST Framework) for the backend and Next.js (React) for the frontend, with Docker containerization and Docker Hub deployment.
 
----
+----
 
 ## Project Structure
 

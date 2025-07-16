@@ -70,13 +70,10 @@ jobs:
           username: aayush
           key: ${{ secrets.SSH_KEY }}
           script: |
-            curl -fsSL https://get.docker.com | sudo sh
-            sudo usermod -aG docker $USER
-            newgrp docker
-            
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
             git clone git@github.com:aayush786-21/django-next-js-postgres-deployment.git || true
             cd django-next-js-postgres-deployment
             git pull origin main
             docker pull aayush786/django-helloworld-frontend:latest
             docker pull aayush786/django-helloworld-backend:latest
-            docker compose up -d
+            docker compose up -d      

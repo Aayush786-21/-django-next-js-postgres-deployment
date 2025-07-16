@@ -1,0 +1,28 @@
+name: Deploy Project
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy using ngrok tunnel
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.NGROK_HOST }}  # e.g., 0.tcp.in.ngrok.io
+          port: ${{ secrets.NGROK_PORT }}  # e.g., 10237
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          ssh_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+          script: |
+            cd /Users/aayush || {
+              git clone git@github.com:aayush786-21/django-next-js-postgres-deployment.git
+              cd django-next-js-postgres-deployment
+            }
+            git pull origin main
+            docker pull aayush786/django-helloworld-frontend:latest
+            docker pull aayush786/django-helloworld-backend:latest
+            docker compose up -d
